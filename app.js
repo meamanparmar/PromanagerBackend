@@ -16,8 +16,8 @@ const port = process.env.PORT || 5000;
 const database = process.env.MONGO_CONNECT_STRING;
 
 app.use(express.json());
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
