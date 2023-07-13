@@ -6,6 +6,9 @@ import express from "express";
 import mongoose from "mongoose";
 import fs from "fs";
 import path from "path";
+
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 import "dotenv/config";
 
 const app = express();
@@ -13,7 +16,8 @@ const port = process.env.PORT || 5000;
 const database = process.env.MONGO_CONNECT_STRING;
 
 app.use(express.json());
-
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -28,7 +32,7 @@ app.use("/api/boards", boardsRoutes);
 app.use("/api/users", usersRoutes);
 app.use(express.static("../client/build"));
 app.get("*", function (req, res) {
-  res.sendFile(path.resolve(__dirname, "../client/build/index.html"));
+  res.sendFile(path.resolve(__dirname, "/client/build/index.html"));
 });
 app.use((req, res, next) => {
   throw new HttpError("Could not found this route!", 404);
@@ -53,6 +57,7 @@ mongoose
     app.listen(port, () => {
       console.log(`Server is up on port: ${port}`);
       console.log(`mongo is connect with ${database}`);
+      console.log(__dirname);
     });
   })
   .catch((err) => {
